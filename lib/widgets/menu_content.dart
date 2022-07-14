@@ -1,19 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:pocketotaku/models/ln_model.dart';
 import 'package:pocketotaku/models/manga_model.dart';
+import 'package:pocketotaku/models/anime_model.dart';
+import 'package:pocketotaku/screens/detail_screen.dart';
+import 'package:pocketotaku/widgets/content_card.dart';
 
 class AnimeLibrary extends StatelessWidget {
+  final int gridCount;
+  final double _widthSize = 1.99;
+  final double _heightSize = 2.94;
+
+  AnimeLibrary({required this.gridCount});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100.0,
-      color: Colors.blue,
+    return Expanded(
+      child: GridView.count(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        crossAxisCount: gridCount,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
+        childAspectRatio: (_widthSize / _heightSize),
+        children: animeList.map((anime) {
+          return InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => DetailAnimeScreen(anime: anime)));
+            },
+            child: ContentCard(
+              image: anime.image,
+              title: anime.title,
+              rating: anime.rating,
+              tag: anime.tag,
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 }
 
 class MangaLibrary extends StatelessWidget {
   final int gridCount;
-  final double _widthSize = 2.0;
+  final double _widthSize = 1.99;
   final double _heightSize = 2.94;
 
   MangaLibrary({required this.gridCount});
@@ -30,45 +58,13 @@ class MangaLibrary extends StatelessWidget {
         children: mangaList.map((manga) {
           return InkWell(
             onTap: () {
-              // TODO ON TAP
+              Navigator.push(context, MaterialPageRoute(builder: (context) => DetailMangaScreen(manga: manga)));
             },
-            child: Card(
-              color: Theme.of(context).accentColor,
-              semanticContainer: true,
-              clipBehavior: Clip.antiAliasWithSaveLayer,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5.0)
-              ),
-              elevation: 3,
-              child: Stack(
-                children: <Widget>[
-                  Image.asset(
-                    manga.image,
-                    fit: BoxFit.cover
-                  ),
-                  Container(
-                    height: 200,
-                    color: Colors.black26,
-                  ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Text(
-                          manga.title,
-                          style: const TextStyle(
-                            fontSize: 12.0,
-                            color: Colors.white
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
+            child: ContentCard(
+              image: manga.image,
+              title: manga.title,
+              rating: manga.rating,
+              tag: manga.tag,
             ),
           );
         }).toList(),
@@ -78,11 +74,35 @@ class MangaLibrary extends StatelessWidget {
 }
 
 class LightNovelLibrary extends StatelessWidget {
+  final int gridCount;
+  final double _widthSize = 1.99;
+  final double _heightSize = 2.94;
+
+  LightNovelLibrary({required this.gridCount});
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 100.0,
-      color: Colors.green,
+    return Expanded(
+      child: GridView.count(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+        crossAxisCount: gridCount,
+        crossAxisSpacing: 5,
+        mainAxisSpacing: 5,
+        childAspectRatio: (_widthSize / _heightSize),
+        children: lightNovelList.map((ln) {
+          return InkWell(
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => DetailLightNovelScreen(lightNovel: ln)));
+            },
+            child: ContentCard(
+              image: ln.image,
+              title: ln.title,
+              rating: ln.rating,
+              tag: ln.tag,
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 }
